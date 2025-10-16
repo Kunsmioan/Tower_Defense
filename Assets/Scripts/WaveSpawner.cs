@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -6,11 +6,13 @@ public class WaveSpawner : MonoBehaviour {
 
 	public static int EnemiesAlive = 0;
 
-	public Wave[] waves;
+    //các đợt tấn công
+    public Wave[] waves;
 
+	//nơi quân địch bắt đầu chạy
 	public Transform spawnPoint;
 
-	public float timeBetweenWaves = 5f;
+	public float timeBetweenWaves = 2f;
 	private float countdown = 2f;
 
 	public Text waveCountdownText;

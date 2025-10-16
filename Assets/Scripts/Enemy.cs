@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
-	public float startSpeed = 10f;
+	public float startSpeed = 50f;
 
 	[HideInInspector]
 	public float speed;

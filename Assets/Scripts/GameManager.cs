@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -30,10 +30,23 @@ public class GameManager : MonoBehaviour {
 		gameOverUI.SetActive(true);
 	}
 
-	public void WinLevel ()
-	{
-		GameIsOver = true;
-		completeLevelUI.SetActive(true);
-	}
+    //public void WinLevel ()
+    //{
+    //	GameIsOver = true;
+    //	completeLevelUI.SetActive(true);
+    //}
+
+    public void WinLevel()
+    {
+        GameIsOver = true;
+        if (completeLevelUI != null)
+        {
+            completeLevelUI.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Chưa gán Complete Level UI trong Inspector của GameManager!");
+        }
+    }
 
 }

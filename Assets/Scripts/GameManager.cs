@@ -1,40 +1,56 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
-	public static bool GameIsOver;
+    public static bool GameIsOver;
 
-	public GameObject gameOverUI;
-	public GameObject completeLevelUI;
+    public GameObject gameOverUI;
+    public GameObject completeLevelUI;
 
-	void Start ()
-	{
-		GameIsOver = false;
-	}
+    void Start()
+    {
+        // Reset trạng thái của chính GameManager
+        GameIsOver = false;
 
-	// Update is called once per frame
-	void Update () {
-		if (GameIsOver)
-			return;
+        // --- PHẦN BỔ SUNG QUAN TRỌNG ---
+        // Reset lại trạng thái của các script khác tại đây
 
-		if (PlayerStats.Lives <= 0)
-		{
-			EndGame();
-		}
-	}
+        // Ví dụ: Reset lại mạng sống của người chơi
+        // Giả sử bạn có một biến static startLives trong PlayerStats
+        if (FindObjectOfType<PlayerStats>() != null) // Kiểm tra để chắc chắn
+        {
+            PlayerStats.Lives = PlayerStats.startLives;
+        }
 
-	void EndGame ()
-	{
-		GameIsOver = true;
-		gameOverUI.SetActive(true);
-	}
+        // Ví dụ: Reset lại số lượng kẻ địch
+        // Điều này đảm bảo WaveSpawner bắt đầu đếm lại từ đầu
+        if (FindObjectOfType<WaveSpawner>() != null)
+        {
+            WaveSpawner.EnemiesAlive = 0;
+        }
 
-    //public void WinLevel ()
-    //{
-    //	GameIsOver = true;
-    //	completeLevelUI.SetActive(true);
-    //}
+        // Tắt tất cả các UI khi bắt đầu game
+        gameOverUI.SetActive(false);
+        completeLevelUI.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (GameIsOver)
+            return;
+
+        if (PlayerStats.Lives <= 0)
+        {
+            EndGame();
+        }
+    }
+
+    void EndGame()
+    {
+        GameIsOver = true;
+        gameOverUI.SetActive(true);
+    }
 
     public void WinLevel()
     {
@@ -48,5 +64,4 @@ public class GameManager : MonoBehaviour {
             Debug.LogError("Chưa gán Complete Level UI trong Inspector của GameManager!");
         }
     }
-
 }

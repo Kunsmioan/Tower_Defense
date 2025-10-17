@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Turret : MonoBehaviour {
@@ -8,19 +8,27 @@ public class Turret : MonoBehaviour {
 
 	[Header("General")]
 
+	//Tầm bắn của pháo
 	public float range = 15f;
 
 	[Header("Use Bullets (default)")]
 	public GameObject bulletPrefab;
-	public float fireRate = 1f;
-	private float fireCountdown = 0f;
+    //tốc độ bắn
+    public float fireRate = 3f;
+    //đếm ngược để kiểm soát thời gian giữa các lần bắn
+    private float fireCountdown = 0f;
 
 	[Header("Use Laser")]
-	public bool useLaser = false;
+    //Một công tắc Bật/Tắt chế độ laser
+    public bool useLaser = false;
 
-	public int damageOverTime = 30;
-	public float slowAmount = .5f;
+    //Sát thương mỗi giây
+    public int damageOverTime = 30;
 
+    //Tỉ lệ làm chậm kẻ địch
+    public float slowAmount = .5f;
+
+	//hệ thống va chạm đạn, có thể bỏ qua vì liên quan đến UI
 	public LineRenderer lineRenderer;
 	public ParticleSystem impactEffect;
 	public Light impactLight;
@@ -29,17 +37,20 @@ public class Turret : MonoBehaviour {
 
 	public string enemyTag = "Enemy";
 
-	public Transform partToRotate;
+    //xoay(ví dụ: nòng súng) để hướng về phía mục tiêu.
+    public Transform partToRotate;
 	public float turnSpeed = 10f;
 
-	public Transform firePoint;
+    //Vị trí chính xác nơi viên đạn hoặc tia laser
+    public Transform firePoint;
 
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating("UpdateTarget", 0f, 0.5f);
 	}
-	
-	void UpdateTarget ()
+
+    //tìm và chọn mục tiêu.
+    void UpdateTarget ()
 	{
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 		float shortestDistance = Mathf.Infinity;
@@ -82,7 +93,8 @@ public class Turret : MonoBehaviour {
 			return;
 		}
 
-		LockOnTarget();
+        
+        LockOnTarget();
 
 		if (useLaser)
 		{
@@ -100,6 +112,7 @@ public class Turret : MonoBehaviour {
 
 	}
 
+	//xoay tháp pháo hướng về mục tiêu
 	void LockOnTarget ()
 	{
 		Vector3 dir = target.position - transform.position;
@@ -139,7 +152,8 @@ public class Turret : MonoBehaviour {
 			bullet.Seek(target);
 	}
 
-	void OnDrawGizmosSelected ()
+    //nhìn thấy tầm bắn của tháp pháo (nâng cao)
+    void OnDrawGizmosSelected ()
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, range);
